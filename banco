@@ -1,0 +1,34 @@
+CREATE SCHEMA IF NOT EXISTS `estoque` DEFAULT CHARACTER SET utf8 ;
+USE `estoque` ;
+
+-- -----------------------------------------------------
+-- Table `estoque`.`Produtos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `estoque`.`Produtos` (
+  `id_produto` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(255) NOT NULL,
+  `fabricante` VARCHAR(255) NULL,
+  `categoria` VARCHAR(255) NULL,
+  `numero_serie` BIGINT NULL UNIQUE,
+  `fragil` BOOLEAN NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_produto`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `estoque`.`Estoque`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `estoque`.`Estoque` (
+  `numero_lote` VARCHAR(255) NOT NULL UNIQUE,
+  `data_recebimento` DATE NULL,
+  `quantidade` INT NOT NULL DEFAULT 0,
+  `id_produto` INT NOT NULL,
+  PRIMARY KEY (`numero_lote`),
+  INDEX `fk_Estoque_Produtos_idx` (`id_produto` ASC) VISIBLE,
+  CONSTRAINT `fk_Estoque_Produtos`
+    FOREIGN KEY (`id_produto`)
+    REFERENCES `estoque`.`Produtos` (`id_produto`)
+    ON DELETE RESTRICT -- Impede a exclusão do produto se houver registros no estoque
+    ON UPDATE CASCADE) -- Atualiza a chave estrangeira se a chave primária for alterada
+    ENGINE = InnoDB;
+
+
