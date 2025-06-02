@@ -30,5 +30,6 @@ CREATE TABLE IF NOT EXISTS `estoque`.`Estoque` (
     ON DELETE RESTRICT -- Impede a exclusão do produto se houver registros no estoque
     ON UPDATE CASCADE) -- Atualiza a chave estrangeira se a chave primária for alterada
     ENGINE = InnoDB;
+  ALTER USER 'usuario'@'localhost' IDENTIFIED BY '1234';
 
 
